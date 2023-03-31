@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
+import Loading from '../../components/Shared/Loading';
 import { AuthContext } from '../../context/AuthProvider';
 
 
@@ -10,6 +11,7 @@ const Login = () => {
 
 
     const { logIn, createUserGoogle } = useContext(AuthContext);
+    const [isLoadig, setIsLoading] = useState(false)
 
     const { register, handleSubmit, } = useForm();
 
@@ -17,6 +19,7 @@ const Login = () => {
 
 
     const onSubmit = (data) => {
+        setIsLoading(true)
         const email = data.email;
         const password = data.password;
         logIn(email, password)
@@ -25,10 +28,12 @@ const Login = () => {
                 const user = result.user;
                 console.log(user);
                 toast.success('log in user successfully')
+                setIsLoading(false)
                 navigate('/')
 
             })
             .catch(err => {
+                setIsLoading(false)
                 console.error('log in error', err)
                 toast.error('something went wrong please try again')
             })
@@ -36,10 +41,12 @@ const Login = () => {
     }
 
     const handleGoogleBtn = () => {
+        setIsLoading(true)
         createUserGoogle()
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                setIsLoading(false)
                 navigate('/')
                 const userData = {
                     name: user.displayName,
@@ -65,6 +72,7 @@ const Login = () => {
 
             })
             .catch(err => {
+                setIsLoading(false)
                 console.log('google pop up error');
                 toast.error('something went wrong please try again')
             })
@@ -72,54 +80,63 @@ const Login = () => {
     }
 
     return (
-        <div className=' flex justify-center '>
+        <div>
+            {
+                isLoadig ?
+                    <Loading></Loading>
+                    :
+                    <div className=' flex justify-center '>
 
-            <form className='' onSubmit={handleSubmit(onSubmit)} >
+                        <form className='' onSubmit={handleSubmit(onSubmit)} >
 
-                <div className="card my-6 flex-shrink-0 w-full shadow-2xl bg-base-100">
-                    <div className="w-96 lg:w-[400px] card-body py-2">
-                        <h2 className=' font-bold text-4xl text-blue-700 text-center mb-1'>Login</h2>
-                        <hr />
+                            <div className="card my-6 flex-shrink-0 w-full shadow-2xl bg-base-100">
+                                <div className="w-96 lg:w-[400px] card-body py-2">
+                                    <h2 className=' font-bold text-4xl text-blue-700 text-center mb-1'>Login</h2>
+                                    <hr />
 
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Email</span>
-                            </label>
-                            <input
-                                {...register("email")}
-                                type="email" placeholder="Email" required className="input input-bordered" />
-                        </div>
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Email</span>
+                                        </label>
+                                        <input
+                                            {...register("email")}
+                                            type="email" placeholder="Email" required className="input input-bordered" />
+                                    </div>
 
 
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Password</span>
-                            </label>
-                            <input
-                                {...register("password")}
-                                required type="password" placeholder="password" className="input input-bordered" />
-                        </div>
-                        <div className="flex items-center justify-between mt-2">
-                            <div className="flex items-center">
-                                <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
-                                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">Remember me</label>
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Password</span>
+                                        </label>
+                                        <input
+                                            {...register("password")}
+                                            required type="password" placeholder="password" className="input input-bordered" />
+                                    </div>
+                                    <div className="flex items-center justify-between mt-2">
+                                        <div className="flex items-center">
+                                            <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                                            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">Remember me</label>
+                                        </div>
+
+                                        <div className="text-sm">
+                                            <Link className="font-medium text-indigo-600 hover:text-indigo-500">Forgot password?</Link>
+                                        </div>
+                                    </div>
+                                    <div className="form-control mt-2">
+                                        <button type='submit' className="btn btn-primary">Login</button>
+                                    </div>
+                                    <div className="divider">or</div>
+                                    <div className="form-control ">
+                                        <button onClick={handleGoogleBtn} type='submit' className="btn btn-outline mb-4">Login with google</button>
+                                    </div>
+
+                                </div>
                             </div>
-
-                            <div className="text-sm">
-                                <Link className="font-medium text-indigo-600 hover:text-indigo-500">Forgot password?</Link>
-                            </div>
-                        </div>
-                        <div className="form-control mt-2">
-                            <button type='submit' className="btn btn-primary">Login</button>
-                        </div>
-                        <div className="divider">or</div>
-                        <div className="form-control ">
-                            <button onClick={handleGoogleBtn} type='submit' className="btn btn-outline mb-4">Login with google</button>
-                        </div>
+                        </form>
 
                     </div>
-                </div>
-            </form>
+            }
+
 
         </div>
     );

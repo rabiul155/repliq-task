@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../components/Shared/Loading';
 import { AuthContext } from '../../context/AuthProvider';
 
 
@@ -11,12 +12,13 @@ const SignUp = () => {
     const { createUser, updateUser, createUserGoogle } = useContext(AuthContext);
 
     const { register, handleSubmit } = useForm();
-
+    const [isLoadig, setIsLoading] = useState(false)
     const imageHostingKey = '60a0534fb81af8024326073b2526de82';
     const navigate = useNavigate();
 
 
     const onSubmit = (data) => {
+        setIsLoading(true)
 
         const name = data.name;
         const email = data.email;
@@ -42,6 +44,7 @@ const SignUp = () => {
                             const user = result.user;
                             console.log(user);
                             toast.success('SignUp successfully')
+                            setIsLoading(false)
                             navigate('/')
                             const userInfo = {
                                 displayName: name,
@@ -79,6 +82,7 @@ const SignUp = () => {
 
                         })
                         .catch(err => {
+                            setIsLoading(false)
                             console.error('create user error', err)
                             toast.error('something went wrong, please try again')
                         })
@@ -91,10 +95,12 @@ const SignUp = () => {
     }
 
     const handleGoogleBtn = () => {
+        setIsLoading(true)
         createUserGoogle()
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                setIsLoading(false)
                 navigate('/')
                 const userData = {
                     name: user.displayName,
@@ -120,6 +126,7 @@ const SignUp = () => {
 
             })
             .catch(err => {
+                setIsLoading(false)
                 console.log('google pop up error');
                 toast.error('something went wrong please try again')
             })
@@ -128,63 +135,71 @@ const SignUp = () => {
 
     return (
 
-        <div className=' flex justify-center '>
+        <div>
+            {
+                isLoadig ?
+                    <Loading></Loading>
 
-            <form className=' ' onSubmit={handleSubmit(onSubmit)} >
+                    :
+                    <div className=' flex justify-center '>
 
-                <div className="card my-6 flex-shrink-0 w-full shadow-2xl bg-base-100">
+                        <form className=' ' onSubmit={handleSubmit(onSubmit)} >
 
-                    <div className="card-body w-96 lg:w-[430px]  py-2 ">
-                        <h2 className=' font-bold text-4xl text-blue-700 text-center mb-5'>SignUp</h2>
-                        <hr />
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Name</span>
-                            </label>
-                            <input
-                                {...register("name")}
-                                type="text" placeholder="Name" required className=" input input-bordered" />
-                        </div>
+                            <div className="card my-6 flex-shrink-0 w-full shadow-2xl bg-base-100">
 
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Email</span>
-                            </label>
-                            <input
-                                {...register("email")}
-                                type="email" placeholder="Email" required className="input input-bordered" />
-                        </div>
+                                <div className="card-body w-96 lg:w-[430px]  py-2 ">
+                                    <h2 className=' font-bold text-4xl text-blue-700 text-center mb-5'>SignUp</h2>
+                                    <hr />
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Name</span>
+                                        </label>
+                                        <input
+                                            {...register("name")}
+                                            type="text" placeholder="Name" required className=" input input-bordered" />
+                                    </div>
 
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Image</span>
-                            </label>
-                            <input required
-                                {...register("picture")}
-                                type="file" className="file-input file-input-bordered w-full " />
-                        </div>
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Email</span>
+                                        </label>
+                                        <input
+                                            {...register("email")}
+                                            type="email" placeholder="Email" required className="input input-bordered" />
+                                    </div>
 
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Password</span>
-                            </label>
-                            <input
-                                {...register("password")}
-                                required type="password" placeholder="password" className="input input-bordered" />
-                        </div>
-                        <div className="form-control mt-5">
-                            <button type='submit' className="btn btn-primary">signup</button>
-                        </div>
-                        <div className="divider">or</div>
-                        <div className="form-control ">
-                            <button onClick={handleGoogleBtn} type='submit' className="btn btn-outline mb-4">signup with google</button>
-                        </div>
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Image</span>
+                                        </label>
+                                        <input required
+                                            {...register("picture")}
+                                            type="file" className="file-input file-input-bordered w-full " />
+                                    </div>
+
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Password</span>
+                                        </label>
+                                        <input
+                                            {...register("password")}
+                                            required type="password" placeholder="password" className="input input-bordered" />
+                                    </div>
+                                    <div className="form-control mt-5">
+                                        <button type='submit' className="btn btn-primary">signup</button>
+                                    </div>
+                                    <div className="divider">or</div>
+                                    <div className="form-control ">
+                                        <button onClick={handleGoogleBtn} type='submit' className="btn btn-outline mb-4">signup with google</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+
+
                     </div>
-                </div>
-            </form>
-
-
-
+            }
         </div>
     );
 };
