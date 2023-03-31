@@ -1,16 +1,74 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthProvider';
 
 
 
 const Login = () => {
 
+
+    const { logIn, createUserGoogle } = useContext(AuthContext);
+
     const { register, handleSubmit, } = useForm();
+
+    const navigate = useNavigate();
 
 
     const onSubmit = (data) => {
-        console.log(data);
+        const email = data.email;
+        const password = data.password;
+        logIn(email, password)
+
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                toast.success('log in user successfully')
+                navigate('/')
+
+            })
+            .catch(err => {
+                console.error('log in error', err)
+                toast.error('something went wrong please try again')
+            })
+
+    }
+
+    const handleGoogleBtn = () => {
+        createUserGoogle()
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                navigate('/')
+                const userData = {
+                    name: user.displayName,
+                    password: '',
+                    email: user.email,
+                    photo: user.photoURL,
+
+                }
+
+                fetch(`http://localhost:5000/users`, {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+
+                    })
+
+
+            })
+            .catch(err => {
+                console.log('google pop up error');
+                toast.error('something went wrong please try again')
+            })
+
     }
 
     return (
@@ -56,7 +114,7 @@ const Login = () => {
                         </div>
                         <div className="divider">or</div>
                         <div className="form-control ">
-                            <button type='submit' className="btn btn-outline mb-4">Login with google</button>
+                            <button onClick={handleGoogleBtn} type='submit' className="btn btn-outline mb-4">Login with google</button>
                         </div>
 
                     </div>

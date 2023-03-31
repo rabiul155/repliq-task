@@ -1,23 +1,136 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthProvider';
 
 
 
 const SignUp = () => {
 
-    const { register, handleSubmit, } = useForm();
+    const { createUser, updateUser, createUserGoogle } = useContext(AuthContext);
+
+    const { register, handleSubmit } = useForm();
+
+    const imageHostingKey = '60a0534fb81af8024326073b2526de82';
+    const navigate = useNavigate();
 
 
     const onSubmit = (data) => {
-        console.log(data);
+
+        const name = data.name;
+        const email = data.email;
+        const password = data.password;
+
+        console.log(email, password);
+
+        const image = data.picture[0];
+        const formData = new FormData()
+        formData.append('image', image);
+        const url = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`
+        fetch(url, {
+            method: "POST",
+            body: formData
+        })
+            .then(res => res.json())
+            .then(imgData => {
+                console.log(imgData);
+
+                if (imgData.success) {
+                    createUser(email, password)
+                        .then(result => {
+                            const user = result.user;
+                            console.log(user);
+                            toast.success('SignUp successfully')
+                            navigate('/')
+                            const userInfo = {
+                                displayName: name,
+                                photoURL: imgData.data.url
+                            }
+                            updateUser(userInfo)
+                                .then(result => {
+
+                                    const user = {
+                                        name,
+                                        password,
+                                        email,
+                                        photo: imgData.data.url,
+
+                                    }
+
+                                    fetch(`http://localhost:5000/users`, {
+                                        method: "POST",
+                                        headers: {
+                                            'content-type': 'application/json'
+                                        },
+                                        body: JSON.stringify(user)
+                                    })
+                                        .then(res => res.json())
+                                        .then(data => {
+                                            console.log(data)
+
+                                        })
+
+                                })
+                                .catch(err => {
+                                    console.error('update user error', err);
+                                    toast.error('something went wrong, please try again')
+                                })
+
+                        })
+                        .catch(err => {
+                            console.error('create user error', err)
+                            toast.error('something went wrong, please try again')
+                        })
+
+
+                }
+            })
+
+
+    }
+
+    const handleGoogleBtn = () => {
+        createUserGoogle()
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                navigate('/')
+                const userData = {
+                    name: user.displayName,
+                    password: '',
+                    email: user.email,
+                    photo: user.photoURL,
+
+                }
+
+                fetch(`http://localhost:5000/users`, {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+
+                    })
+
+
+            })
+            .catch(err => {
+                console.log('google pop up error');
+                toast.error('something went wrong please try again')
+            })
+
     }
 
     return (
+
         <div className=' flex justify-center '>
 
-
             <form className=' ' onSubmit={handleSubmit(onSubmit)} >
-
 
                 <div className="card my-6 flex-shrink-0 w-full shadow-2xl bg-base-100">
 
@@ -64,7 +177,7 @@ const SignUp = () => {
                         </div>
                         <div className="divider">or</div>
                         <div className="form-control ">
-                            <button type='submit' className="btn btn-outline mb-4">signup with google</button>
+                            <button onClick={handleGoogleBtn} type='submit' className="btn btn-outline mb-4">signup with google</button>
                         </div>
                     </div>
                 </div>
