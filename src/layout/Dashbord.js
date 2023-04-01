@@ -23,7 +23,7 @@ const Dashbord = () => {
                         <Link to='/dashbord/orders'><li className=' font-bold hover:bg-base-300 rounded-md text-md p-2'> Total Orders</li></Link>
                         <Link to='/dashbord/products'><li className=' font-bold hover:bg-base-300 rounded-md text-md p-2'>All Products</li></Link>
                         <Link to='/dashbord/customers'><li className=' font-bold hover:bg-base-300 rounded-md text-md p-2'>All Customers</li></Link>
-                        <Link to='/dashbord/addCustomers'><li className=' font-bold hover:bg-base-300 rounded-md text-md p-2'>Add Customers</li></Link>
+
 
                     </ul>
 

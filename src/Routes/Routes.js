@@ -13,11 +13,14 @@ import Orders from "../Pages/Orders/Orders";
 import ProductsList from "../Pages/ProducstList/ProductsList";
 import Customers from "../Pages/Customers/Customers";
 import CustomerDetails from "../Pages/CustomerDetails/CustomerDetails";
+import Error from "../Pages/Error/Error";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <Main></Main>,
+        errorElement: <Error></Error>,
         children: [
             {
                 path: '/',
@@ -52,7 +55,8 @@ export const router = createBrowserRouter([
     },
     {
         path: '/dashbord',
-        element: <Dashbord></Dashbord>,
+        element: <AdminRoute><Dashbord></Dashbord></AdminRoute>,
+        errorElement: <Error></Error>,
         children: [
             {
                 path: '/dashbord/',
