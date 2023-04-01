@@ -9,6 +9,9 @@ import Cart from "../Pages/Cart/Cart";
 import PrivateRoute from "./PrivateRoute";
 import Dashbord from "../layout/Dashbord";
 import AddProduct from "../Pages/AddProduct/AddProduct";
+import Orders from "../Pages/Orders/Orders";
+import ProductsList from "../Pages/ProducstList/ProductsList";
+import Customers from "../Pages/Customers/Customers";
 
 export const router = createBrowserRouter([
     {
@@ -53,6 +56,18 @@ export const router = createBrowserRouter([
             {
                 path: '/dashbord/',
                 element: <AddProduct></AddProduct>
+            },
+            {
+                path: '/dashbord/orders',
+                element: <Orders></Orders>
+            },
+            {
+                path: '/dashbord/products',
+                element: <ProductsList></ProductsList>
+            },
+            {
+                path: '/dashbord/customers',
+                element: <Customers></Customers>
             }
         ]
     }
