@@ -9,7 +9,7 @@ const Carousel = () => {
     return (
         <div className=' lg:mx-16 mb-20'>
             <div>
-                <h2 className='text-5xl font-bold text-center text-primary mb-20 my-10'>Buy Our Most Popular Product</h2>
+                <h2 className='text-5xl font-bold text-center text-primary mb-20 mt-6'>Buy Our Most Popular Product</h2>
             </div>
             <div className="carousel w-full">
                 <div id="slide1" className="carousel-item relative w-full">
@@ -30,7 +30,7 @@ const Carousel = () => {
                     <div className=' flex justify-between items-center'>
                         <img src={img4} alt='img' className="h-96" />
                         <div className='mx-10'>
-                            <h1 className='font-bold text-5xl py-4'>Galaxy S22 Ultra</h1>
+                            <h1 className='font-bold text-5xl py-4'>Galaxy S23 Ultra</h1>
                             <h3 className='text-3xl font-bold py-4'>Price : $1299</h3>
                             <button className='btn my-4  w-[150px] btn-outline'>Buy Now</button>
                         </div>
