@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Loading from '../../components/Shared/Loading';
 import { AuthContext } from '../../context/AuthProvider';
 
@@ -16,6 +16,8 @@ const Login = () => {
     const { register, handleSubmit, } = useForm();
 
     const navigate = useNavigate();
+    const location = useLocation()
+    const from = location.state?.from?.pathname || '/'
 
 
     const onSubmit = (data) => {
@@ -29,7 +31,7 @@ const Login = () => {
                 console.log(user);
                 toast.success('log in user successfully')
                 setIsLoading(false)
-                navigate('/')
+                navigate(from, { replace: true })
 
             })
             .catch(err => {

@@ -6,6 +6,7 @@ import SignUp from "../Pages/SignUp/SignUp";
 import Products from "../Pages/Products/Products";
 import ProductDetails from "../Pages/ProductDetails/ProductDetails";
 import Cart from "../Pages/Cart/Cart";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([{
 
@@ -30,7 +31,7 @@ export const router = createBrowserRouter([{
 
         {
             path: '/cart',
-            element: <Cart></Cart>
+            element: <PrivateRoute><Cart></Cart></PrivateRoute>
         },
 
         {
