@@ -1,19 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
+import React, { useContext, useState } from 'react';
 import { FaTrashAlt } from "react-icons/fa";
-import { AuthContext } from '../../../../context/AuthProvider';
+import { AuthContext } from '../../context/AuthProvider';
+import { toast } from 'react-hot-toast';
 
 const CartProduct = ({ product, refetch }) => {
 
     const { _id, name, picture, price, about, quantity } = product;
+
 
     const { user } = useContext(AuthContext);
 
     const [count, setCount] = useState(quantity);
 
     const totalPrice = count * price;
-
-
 
 
     const handleIncrese = () => {
@@ -25,7 +24,7 @@ const CartProduct = ({ product, refetch }) => {
                 quantity: count + 1
 
             }
-            fetch(`https://replic-coding-test-server.vercel.app/updateCart?email=${user?.email}&_id=${_id}`, {
+            fetch(`http://localhost:5000/updateCart?email=${user?.email}&_id=${_id}`, {
                 method: "PUT",
                 headers: {
                     'content-type': 'application/json'
@@ -48,7 +47,7 @@ const CartProduct = ({ product, refetch }) => {
                 quantity: count - 1
 
             }
-            fetch(`https://replic-coding-test-server.vercel.app/updateCart?email=${user?.email}&_id=${_id}`, {
+            fetch(`http://localhost:5000/updateCart?email=${user?.email}&_id=${_id}`, {
                 method: "PUT",
                 headers: {
                     'content-type': 'application/json'
@@ -66,9 +65,10 @@ const CartProduct = ({ product, refetch }) => {
     }
 
     const handleDelete = () => {
+
         const confirm = window.confirm('are you sure to delete this item')
         if (confirm) {
-            fetch(`https://replic-coding-test-server.vercel.app/item/${_id}`, {
+            fetch(`http://localhost:5000/item/${_id}`, {
                 method: "DELETE"
             })
                 .then(res => res.json())
@@ -80,8 +80,8 @@ const CartProduct = ({ product, refetch }) => {
                 })
 
         }
-    }
 
+    }
 
 
 

@@ -3,9 +3,12 @@ import { useQuery } from 'react-query';
 import img1 from '../../Images/p1.png'
 import img2 from '../../Images/p2.png'
 import img3 from '../../Images/p3.png'
-import CartProduct from '../../components/CartProduct/CartProduct';
-import { AuthContext } from '../../context/AuthProvider';
+
 import Loading from '../../components/Shared/Loading';
+import { AuthContext } from '../../context/AuthProvider';
+import CartProduct from '../../components/CartProduct/CartProduct';
+
+
 
 const Cart = () => {
 
@@ -27,20 +30,17 @@ const Cart = () => {
 
     if (products) {
         for (const prosuct of products) {
-
             const price = prosuct.price;
             const quantity = prosuct.quantity;
             const productPrice = price * quantity;
-            totalCost = totalCost + productPrice;
-
-
+            totalCost = totalCost + productPrice
         }
     }
 
+    const serviceCharge = totalCost * 0.02
+    const vat = totalCost * 0.05
+    const total = totalCost + serviceCharge + vat;
 
-
-    // console.log(checkout);
-    // console.log(products)
 
     if (isLoading) {
         return <Loading></Loading>
@@ -60,15 +60,48 @@ const Cart = () => {
 
 
             </div>
+
+
+            {/* cart calculation  */}
+
+
             <div >
-                <div className="card w-72 bg-base-200 shadow-xl">
+                <div className=" w-72 bg-base-200 shadow-xl">
+                    <div className="flex text-xl flex-col p-6 space-y-4 divide-y  sm:p-10 divide-gray-700  dark:text-gray-900">
+                        <h2 className="text-2xl font-semibold">Order items</h2>
+                        <ul className="flex flex-col pt-4 space-y-2">
+                            <li className="flex items-start justify-between">
+                                <h3>
+                                    Product Price
+                                </h3>
+                                <div className="text-right">
 
-                    <div className="card-body">
-                        <h2 className=" text-2xl font-bold text-center pb-4">Checkout</h2>
-                        <p className=' font-bold py-4 text-2xl'>Total Cost : ${totalCost}</p>
-                        <div className="card-actions justify-end">
+                                    ${totalCost}
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div className="pt-4 space-y-2">
+                            <div className="flex justify-between">
+                                <span>Vat </span>
+                                <span>${vat.toFixed(2)}</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <div className="flex justify-between">
+                                    <span>Delivery fee</span>
+                                    <span>${serviceCharge.toFixed(2)}</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div className="space-y-6">
+                            <div className="flex justify-between">
+                                <span className="font-semibold">Total</span>
+                                <span className="font-semibold">${total.toFixed(2)}</span>
+                            </div>
                             <label htmlFor="my-modal-3" className="btn w-full">Pay Bill</label>
-
                         </div>
                     </div>
                 </div>
@@ -79,7 +112,7 @@ const Cart = () => {
 
                 <input type="checkbox" id="my-modal-3" className="modal-toggle" />
                 <div className="modal">
-                    <div className="modal-box relative">
+                    <div className="modal-box bg-base-200 relative">
                         <label htmlFor="my-modal-3" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                         <h3 className="text-lg font-bold">Pay Your bill
                             via following payment method</h3>
