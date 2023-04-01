@@ -6,7 +6,7 @@ import Loading from '../../components/Shared/Loading';
 
 const AddProduct = () => {
 
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false)
     const imageHostingKey = '60a0534fb81af8024326073b2526de82';
@@ -53,6 +53,7 @@ const AddProduct = () => {
                             console.log(data)
                             toast.success('product added')
                             setLoading(false)
+                            reset()
 
                         })
                 }

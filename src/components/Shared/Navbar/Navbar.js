@@ -4,6 +4,7 @@ import { AuthContext } from '../../../context/AuthProvider';
 
 
 
+
 const Navbar = () => {
 
 
@@ -17,7 +18,8 @@ const Navbar = () => {
         <>
             <Link to='/'><li className='font-bold text-md px-2'>Home</li></Link>
             <Link to='/products'><li className='font-bold text-md px-2'>ProductList</li></Link>
-            <Link to='/cart'><li className='font-bold text-md px-2'>Cart</li></Link>
+            <Link to='/cart'><li className='font-bold text-md px-2'>
+                CartProduct</li></Link>
 
             {
                 user?.email === 'admin@gmail.com' &&
