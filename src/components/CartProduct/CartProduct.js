@@ -24,7 +24,7 @@ const CartProduct = ({ product, refetch }) => {
                 quantity: count + 1
 
             }
-            fetch(`http://localhost:5000/updateCart?email=${user?.email}&_id=${_id}`, {
+            fetch(`https://repliq-task-server.vercel.app/updateCart?email=${user?.email}&_id=${_id}`, {
                 method: "PUT",
                 headers: {
                     'content-type': 'application/json'
@@ -47,7 +47,7 @@ const CartProduct = ({ product, refetch }) => {
                 quantity: count - 1
 
             }
-            fetch(`http://localhost:5000/updateCart?email=${user?.email}&_id=${_id}`, {
+            fetch(`https://repliq-task-server.vercel.app/updateCart?email=${user?.email}&_id=${_id}`, {
                 method: "PUT",
                 headers: {
                     'content-type': 'application/json'
@@ -68,7 +68,7 @@ const CartProduct = ({ product, refetch }) => {
 
         const confirm = window.confirm('are you sure to delete this item')
         if (confirm) {
-            fetch(`http://localhost:5000/item/${_id}`, {
+            fetch(`https://repliq-task-server.vercel.app/item/${_id}`, {
                 method: "DELETE"
             })
                 .then(res => res.json())

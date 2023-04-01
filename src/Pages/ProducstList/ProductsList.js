@@ -10,7 +10,7 @@ const ProductsList = () => {
     const { data: products = [], isLoading, refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/products`)
+            const res = await fetch(`https://repliq-task-server.vercel.app/products`)
             const data = await res.json();
             return data;
         }
@@ -23,7 +23,7 @@ const ProductsList = () => {
         const confirm = window.confirm('are you sure to delete this product ')
         if (confirm) {
 
-            fetch(`http://localhost:5000/products/${_id}`, {
+            fetch(`https://repliq-task-server.vercel.app/products/${_id}`, {
                 method: "DELETE"
             })
                 .then(res => res.json())

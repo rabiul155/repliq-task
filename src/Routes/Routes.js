@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/item/:_id',
-                loader: ({ params }) => fetch(`http://localhost:5000/item/${params._id}`),
+                loader: ({ params }) => fetch(`https://repliq-task-server.vercel.app/item/${params._id}`),
                 element: <ProductDetails></ProductDetails>
             },
 
@@ -76,7 +76,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/dashbord/customerDetails/:email',
-                loader: ({ params }) => fetch(`http://localhost:5000/customerDetails?email=${params.email}`),
+                loader: ({ params }) => fetch(`https://repliq-task-server.vercel.app/customerDetails?email=${params.email}`),
                 element: <CustomerDetails></CustomerDetails>
             },
         ]

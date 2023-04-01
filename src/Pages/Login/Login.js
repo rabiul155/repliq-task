@@ -58,7 +58,7 @@ const Login = () => {
 
                 }
 
-                fetch(`http://localhost:5000/users`, {
+                fetch(`https://repliq-task-server.vercel.app/users`, {
                     method: "POST",
                     headers: {
                         'content-type': 'application/json'
@@ -139,6 +139,15 @@ const Login = () => {
                     </div>
             }
 
+            <div className=' m-4 absolute top-16 right-3'>
+                <h2>Cridential Info</h2>
+                <h2>Admin</h2>
+                <p>Email : admin@gmail.com</p>
+                <p>Password : 123456</p>
+                <h2>User</h2>
+                <p>Email : user@gmail.com</p>
+                <p>password : 123456</p>
+            </div>
 
         </div>
     );

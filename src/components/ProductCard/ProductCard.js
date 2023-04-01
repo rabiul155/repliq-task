@@ -23,7 +23,7 @@ const ProductCard = ({ product }) => {
     const handleAddToCart = () => {
 
         if (user?.uid) {
-            fetch(`http://localhost:5000/cart`, {
+            fetch(`https://repliq-task-server.vercel.app/cart`, {
                 method: "POST",
                 headers: {
                     'content-type': 'application/json'

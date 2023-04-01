@@ -41,7 +41,7 @@ const AddProduct = () => {
                         about: data.about
                     }
                     console.log(product);
-                    fetch(`http://localhost:5000/products`, {
+                    fetch(`https://repliq-task-server.vercel.app/products`, {
                         method: "POST",
                         headers: {
                             'content-type': 'application/json'

@@ -18,7 +18,7 @@ const CustomerDetails = () => {
 
     useEffect(() => {
         setLoading(true)
-        fetch(`http://localhost:5000/customer/${userEmail?.email}`)
+        fetch(`https://repliq-task-server.vercel.app/customer/${userEmail?.email}`)
             .then(res => res.json())
             .then(data => {
                 setCustomer(data);

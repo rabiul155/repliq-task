@@ -13,7 +13,7 @@ const Customers = () => {
 
     useEffect(() => {
         setLoading(true)
-        fetch(`http://localhost:5000/users`)
+        fetch(`https://repliq-task-server.vercel.app/users`)
             .then(res => res.json())
             .then(data => {
                 setUser(data);
